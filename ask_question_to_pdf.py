@@ -4,15 +4,11 @@ import fitz
 import openai
 from dotenv import load_dotenv
 from nltk.tokenize import sent_tokenize
-#from flask_dotenv import DotEnv
-
-
+# from flask_dotenv import DotEnv
 from openai import OpenAI
 
 load_dotenv(dotenv_path=".env")
 
-#env = Dotenv()
-#env.init_app(app, dotenv_path = 'C:\Users\Alexa\OneDrive\Bureau\Info\hackathon-ponts\.env')
 
 def open_file(filepath):
     with open(filepath, "r", encoding="utf-8") as infile:
@@ -20,8 +16,8 @@ def open_file(filepath):
 
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-#print(os.getenv("OPENAI_API_KEY"))
-#print(client.api_key)
+# print(os.getenv("OPENAI_API_KEY"))
+# print(client.api_key)
 
 
 def read_pdf(filename):
@@ -79,7 +75,8 @@ chunks = split_text(document)
 
 
 def initialize_memory():
-    return [{"role": "system", "content": "You are a helpful assistant that helps understand the contents provided."}]
+    return [{"role": "system",
+             "content": "You are a helpful assistant that helps understand the contents provided."}]
 
 
 def add_new_message(memory, new):
@@ -96,6 +93,7 @@ def gpt3_completion(user_message):
 
 # return only the response, used to verify gpt3_completion
 def ask_question_pdf(user_message, histo, texte=document):
-    histo.append({"role": "system", "content": f"you have this as your ground truth :{texte}"})
+    histo.append({"role": "system",
+                  "content": f"you have this as your ground truth :{texte}"})
     add_new_message(memory=histo, new=user_message)
     return gpt3_completion(histo)
